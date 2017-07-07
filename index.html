@@ -1,0 +1,71 @@
+<!doctype html>
+<html ng-App="smallcaseApp">
+
+<head>
+    <meta charset="utf-8">
+    <titlesSmallcase</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+        <script src="script.js"></script>
+</head>
+
+<body>
+    <h1 class="tophead">smallcase Portfolio Builder</h1>
+    <div ng-controller="stockCtrl">
+
+    <!--************************Section 1 Begins*************************-->
+        <section class="pickstocks">
+            <label class="basiclabel">Pick Stocks</label>
+            <div class="infoone">
+                <button class="filtertext" type="submit">&nbsp;&nbsp;Apply Filters</button>
+            </div>
+            <div class="stockpage">
+                <ul id="stocklist">
+                    <li ng-repeat="(key,value) in stocks | objLimitTo:8 track by $index">
+                        <span class="keyvalue"> {{key}} </span>
+                        <span class="keyvalue">{{"&#x20b9;" + value}}</span>
+                        <span class="fa fa-plus plus" ng-click="addToTable(key, value, $index)"></span>
+                    </li>
+                </ul>
+                <a href="#" class="pages1">Previous</a>
+                <p class="showstock">Showing matching stocks</p>
+                <a href="#" class="pages2">Next</a>
+            </div>
+        </section>
+
+
+        <!--************************Section 2 Begins*************************-->
+        <section class="pickstocks">
+            <label class="basiclabel">Manage Portfolio</label>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STOCK</th>
+                            <th>PRICE</th>
+                            <th>SHARES</th>
+                            <th>WEIGHT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="stock in stocksArray" class="portfoliokey">
+                            <td>{{stock.key}}</td>
+                            <td class="portfoliovalue">{{"&#x20b9;" + stock.value}}</td>
+                            <td class="changer">
+                                <input type="button" id="num1" ng-click="decrementValue( stock.index )" value="-">
+                                <input type="button" id="number{{ stock.index }}" value="1" />
+                                <input type="button" ng-click="incrementValue( stock.index )" value="+" />
+                            </td>
+                            <td>{{ }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
