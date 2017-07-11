@@ -44,7 +44,7 @@ a {
     color: dodgerblue;
     font-family: arial;
     font-size: 12px;
-    float: right;
+    padding-left: 380px;
     margin-right: 30px;
 }
 
@@ -146,6 +146,7 @@ ul li {
     color: dodgerblue;
     border: 2px solid #eee;
     border-radius: 3px;
+
 }
 
 
@@ -155,6 +156,7 @@ table {
     border-collapse: collapse;
     padding-top: 30px;
     margin: 20px 0 0 20px;
+    width: 40%;
 }
 
 table th {
@@ -165,11 +167,9 @@ table th {
     color: #fff;
     font-family: arial;
     font-size: 11px;
-}
-
-th {
     text-align: left;
 }
+
 
 tr:nth-child(even) {
     background-color: #f5f5f5;
@@ -192,4 +192,33 @@ tr:nth-child(even) {
 
 .changer {
     padding-left: 10px;
+}
+
+/********************Analysis Panel********************/
+.networth {
+	position: absolute;
+	font-family:arial;
+	font-size: 14px;
+	font-weight:bold;
+	color: dodgerblue;
+	margin-right: 50px; 
+	right: 140px;
+	top: 510px;
+	/*float: right;	*/
+	}
+
+.pickstocksalign {
+	width: 50%;
+
+}
+
+.peratio {
+	position: absolute;
+	font-family: arial;
+	font-size:14px;
+	font-weight: bold;
+	color: dodgerblue;
+	margin-right: 50px;
+	right: 140px;
+	top:570px;
 }

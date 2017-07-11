@@ -7,16 +7,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="graph.js"></script>
+        <!-- load the d3.js library -->
         <script src="script.js"></script>
 </head>
 
 <body>
     <h1 class="tophead">smallcase Portfolio Builder</h1>
     <div ng-controller="stockCtrl">
-
-    <!--************************Section 1 Begins*************************-->
+        <!--************************Section 1 Begins*************************-->
         <section class="pickstocks">
             <label class="basiclabel">Pick Stocks</label>
             <div class="infoone">
@@ -35,37 +36,48 @@
                 <a href="#" class="pages2">Next</a>
             </div>
         </section>
-
-
         <!--************************Section 2 Begins*************************-->
         <section class="pickstocks">
             <label class="basiclabel">Manage Portfolio</label>
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>STOCK</th>
-                            <th>PRICE</th>
-                            <th>SHARES</th>
-                            <th>WEIGHT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="stock in stocksArray" class="portfoliokey">
-                            <td>{{stock.key}}</td>
-                            <td class="portfoliovalue">{{"&#x20b9;" + stock.value}}</td>
-                            <td class="changer">
-                                <input type="button" id="num1" ng-click="decrementValue( stock.index )" value="-">
-                                <input type="button" id="number{{ stock.index }}" value="1" />
-                                <input type="button" ng-click="incrementValue( stock.index )" value="+" />
-                            </td>
-                            <td>{{ }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- <div class="pickstocksalign"> -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>STOCK</th>
+                        <th>PRICE</th>
+                        <th>SHARES</th>
+                        <th>WEIGHT</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="stock in stocksArray" class="portfoliokey">
+                        <td>{{stock.key}}</td>
+                        <td class="portfoliovalue">{{"&#x20b9;" + stock.value}}</td>
+                        <td class="changer">
+                            <input type="button" id="num1" ng-click="decrementValue( stock)" value="-">
+                            <input type="button" id="number{{ stock.index }}" value="{{stock.shares}}" />
+                            <input type="button" ng-click="incrementValue(stock)" value="+" />
+                        </td>
+                        <td>{{((stock.individualStock())/getNetWorth()*100 | number:2) + "%"}}</td>
+                        <!-- <td>{{stock.eps}}</td> -->
+                        <td><span class="fa fa-trash-o" ng-click="remove($index)"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- </div> -->
+            <div class="networth">
+                <h3>Networth: {{"&#x20b9;" +getNetWorth()}}</h3>
             </div>
+            <div class="peratio">
+                <h3>P/E Ratio: {{getPortfolioPE()}}</h3>
+            </div>
+            <svg id="visualisation" width="1000" height="500"></svg>
+            <!-- </div> -->
         </section>
     </div>
+    
+    
 </body>
 
 </html>
