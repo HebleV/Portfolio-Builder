@@ -8,15 +8,17 @@
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
-        <script src="http://d3js.org/d3.v3.min.js"></script>
-        <script src="graph.js"></script>
-        <!-- load the d3.js library -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="script.js"></script>
 </head>
 
 <body>
     <h1 class="tophead">smallcase Portfolio Builder</h1>
-    <div ng-controller="stockCtrl">
+
+    
+    <div ng-controller="stockCtrl">    <!-- Defining Controller --> 
+
+
         <!--************************Section 1 Begins*************************-->
         <section class="pickstocks">
             <label class="basiclabel">Pick Stocks</label>
@@ -26,9 +28,9 @@
             <div class="stockpage">
                 <ul id="stocklist">
                     <li ng-repeat="(key,value) in stocks | objLimitTo:8 track by $index">
-                        <span class="keyvalue"> {{key}} </span>
-                        <span class="keyvalue">{{"&#x20b9;" + value}}</span>
-                        <span class="fa fa-plus plus" ng-click="addToTable(key, value, $index)"></span>
+                        <span class="keyvalue"> {{key}} </span>                             <!-- Stock Display  -->
+                        <span class="keyvalue">{{"&#x20b9;" + value}}</span>                 <!-- Price Display  -->
+                        <span class="fa fa-plus plus" ng-click="addToTable(key, value, $index)"></span><!-- Add stocks to table  -->
                     </li>
                 </ul>
                 <a href="#" class="pages1">Previous</a>
@@ -36,10 +38,12 @@
                 <a href="#" class="pages2">Next</a>
             </div>
         </section>
+        <!--************************Section 1 Ends*************************-->
+
         <!--************************Section 2 Begins*************************-->
         <section class="pickstocks">
             <label class="basiclabel">Manage Portfolio</label>
-            <!-- <div class="pickstocksalign"> -->
+            
             <table>
                 <thead>
                     <tr>
@@ -52,32 +56,86 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="stock in stocksArray" class="portfoliokey">
-                        <td>{{stock.key}}</td>
-                        <td class="portfoliovalue">{{"&#x20b9;" + stock.value}}</td>
+                        <td>{{stock.key}}</td>                                        <!-- Stock Display  -->
+                        <td class="portfoliovalue">{{"&#x20b9;" + stock.value}}</td> <!-- Price Display -->
                         <td class="changer">
-                            <input type="button" id="num1" ng-click="decrementValue( stock)" value="-">
+                            <input type="button" id="num1" ng-click="decrementValue( stock)" value="-"><!-- Incrementer and Decrementer -->
                             <input type="button" id="number{{ stock.index }}" value="{{stock.shares}}" />
                             <input type="button" ng-click="incrementValue(stock)" value="+" />
                         </td>
-                        <td>{{((stock.individualStock())/getNetWorth()*100 | number:2) + "%"}}</td>
-                        <!-- <td>{{stock.eps}}</td> -->
-                        <td><span class="fa fa-trash-o" ng-click="remove($index)"></span></td>
+                        <td>{{((stock.individualStock())/getNetWorth()*100 | number:2) + "%"}}</td> <!-- Weight Calculation-->
+                        <td><span class="fa fa-trash-o" ng-click="remove($index)"></span></td>   <!-- Delete Stock  -->     
                     </tr>
                 </tbody>
             </table>
-            <!-- </div> -->
+
+            <div class="chartjs">
+                <canvas id="stockchart"></canvas>                       <!-- Graph Representation -->
+            </div>
+           
             <div class="networth">
-                <h3>Networth: {{"&#x20b9;" +getNetWorth()}}</h3>
+                <h3>Networth: {{"&#x20b9;" +getNetWorth()}}</h3>      <!-- Networth Calculation -->
             </div>
             <div class="peratio">
-                <h3>P/E Ratio: {{getPortfolioPE()}}</h3>
+                <h3>P/E Ratio: {{getPortfolioPE()}}</h3>               <!-- P/E Ratio Calculation -->
             </div>
-            <svg id="visualisation" width="1000" height="500"></svg>
-            <!-- </div> -->
+            
         </section>
-    </div>
-    
-    
-</body>
+        <!--************************Section 2 Ends*************************-->
 
+
+    </div>    <!-- Controller Ends -->
+    
+
+    <!--************************Load Chart.js*************************-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
+
+    <!-- ****************************** Begin of Filter************************* -->
+    <script>
+    app.filter('objLimitTo', [function() {
+        return function(obj, limit) {
+            if (obj) {
+                var keys = Object.keys(obj);
+                if (keys.length < 1) {
+                    return [];
+                }
+            }
+
+            var result = {},
+                count = 0;
+            angular.forEach(keys, function(key) {
+                if (count >= limit) {
+                    return false;
+                }
+                result[key] = obj[key];
+                count++;
+            });
+            return result;
+        };
+    }]);
+    </script>
+    <!-- ****************************** End of Filter************************* -->
+
+
+    <!--****************************** Defining values of Graph************************* -->
+    <script>
+    new Chart(document.getElementById("stockchart"), {
+        "type": "line",
+        "data": {
+            "labels": ["24-JUN", "25-JUN", "26-JUN", "27-JUN", "28-JUN"],
+            "datasets": [{
+                "label": "STOCK",
+                "data": [1043.55, 1014.75, 1019.85, 999.05, 999.5],
+                "fill": true,
+                "borderColor": "rgba(75, 89, 192,50)",
+                "lineTension": 0.1
+            }]
+        },
+        "options": {}
+    });
+    </script>
+    <!-- //****************************** End of Graph************************* -->
+
+</body>
 </html>
