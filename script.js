@@ -1,4 +1,4 @@
- var app = angular.module('sharesPortfolioApp', []);
+ var app = angular.module('sharesPortfolio', []);
 
  app.controller('stockCtrl', function($scope, $http) {
 
